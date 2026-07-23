@@ -46,6 +46,15 @@ export class TiendaUseCases {
 
   async getHistorialVentas(): Promise<{venta: Venta, detalles: (DetalleVenta & {nombre_producto?: string})[]}[]> {
     const ventas = await this.tiendaRepository.getVentas();
+    return this.fetchDetallesForVentas(ventas);
+  }
+
+  async getHistorialVentasByDateRange(startDate: string, endDate: string): Promise<{venta: Venta, detalles: (DetalleVenta & {nombre_producto?: string})[]}[]> {
+    const ventas = await this.tiendaRepository.getVentasByDateRange(startDate, endDate);
+    return this.fetchDetallesForVentas(ventas);
+  }
+
+  private async fetchDetallesForVentas(ventas: Venta[]): Promise<{venta: Venta, detalles: (DetalleVenta & {nombre_producto?: string})[]}[]> {
     const productos = await this.tiendaRepository.getProductos();
     const historial = await Promise.all(
       ventas.map(async (v) => {

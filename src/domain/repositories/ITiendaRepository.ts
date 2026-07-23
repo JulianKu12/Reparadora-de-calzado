@@ -7,6 +7,7 @@ export interface ITiendaRepository {
   saveVenta(venta: Omit<Venta, 'id_venta' | 'fecha_venta'>): Promise<Venta>;
   saveDetalleVenta(detalle: Omit<DetalleVenta, 'id_detalle'>): Promise<DetalleVenta>;
   getVentas(): Promise<Venta[]>;
+  getVentasByDateRange(startDate: string, endDate: string): Promise<Venta[]>;
   getDetallesByVentaId(id_venta: number): Promise<DetalleVenta[]>;
   updateStock(id_producto: number, nuevoStock: number): Promise<void>;
   updateProducto(id_producto: number, producto: Partial<Omit<Producto, 'id_producto'>>): Promise<void>;

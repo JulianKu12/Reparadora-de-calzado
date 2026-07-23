@@ -45,6 +45,19 @@ export class TiendaRepository implements ITiendaRepository {
     return data as Venta[];
   }
 
+  async getVentasByDateRange(startDate: string, endDate: string): Promise<Venta[]> {
+    // By passing 'YYYY-MM-DD' directly, Postgres treats it as 00:00:00 of that day
+    // This avoids timezone issues entirely.
+    const { data, error } = await supabase
+      .from('tienda_ventas')
+      .select('*')
+      .gte('fecha_venta', startDate)
+      .lte('fecha_venta', `${endDate} 23:59:59`)
+      .order('fecha_venta', { ascending: false });
+    if (error) throw error;
+    return data as Venta[];
+  }
+
   async getDetallesByVentaId(id_venta: number): Promise<DetalleVenta[]> {
     const { data, error } = await supabase.from('tienda_detalle_ventas').select('*').eq('id_venta', id_venta);
     if (error) throw error;

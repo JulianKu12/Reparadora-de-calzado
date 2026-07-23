@@ -12,7 +12,7 @@ export class TallerUseCases {
     return this.tallerRepository.getTicketById(id);
   }
 
-  async crearTicket(ticket: Omit<TicketTaller, 'id_servicio' | 'fecha_recepcion'>): Promise<TicketTaller> {
+  async crearTicket(ticket: Omit<TicketTaller, 'id_servicio' | 'fecha_recepcion' | 'costo_total'>): Promise<TicketTaller> {
     // Aquí se podrían añadir validaciones de negocio antes de crear el ticket.
     return this.tallerRepository.createTicket(ticket);
   }
